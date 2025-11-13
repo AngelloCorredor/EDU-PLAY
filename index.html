@@ -158,24 +158,7 @@
       frases[Math.floor(Math.random() * frases.length)];
       
   </script>
-  <script>
-    const userData = JSON.parse(localStorage.getItem("eduplay_user")) || {
-      name: "Invitado",
-      avatar: "https://i.postimg.cc/8cJ9dTnQ/avatar1.png"
-    };
   
-    const headerName = document.getElementById("headerName");
-    const headerAvatar = document.getElementById("headerAvatar");
-  
-    if (headerName && headerAvatar) {
-      headerName.textContent = userData.name || "Invitado";
-      headerAvatar.src = userData.avatar || "https://i.postimg.cc/8cJ9dTnQ/avatar1.png";
-    }
-  </script>
-  <button onclick="resetEduplay()" class="btn-gradient mt-6 px-6 py-3 rounded-xl">
-  Reiniciar progreso 🔄
-</button>
-
 
 
 </body>
