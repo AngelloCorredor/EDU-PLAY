@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendario | EDU-PLAY</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FullCalendar (versión estable) -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #7a3cff, #0f0f10 70%);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #7a3cff, #ff66c4);
+      transition: all 0.3s ease;
+    }
+    .btn-gradient:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff66c4;
+    }
+    #calendar {
+      max-width: 90%;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(255,102,196,0.4);
+    }
+    .fc-toolbar-title {
+      color: #ff66c4 !important;
+      text-shadow: 0 0 10px #7a3cff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🔹 NAVBAR -->
+  <header class="fixed w-full z-50 backdrop-blur bg-black/40">
+    <nav class="container mx-auto flex justify-between items-center py-4 px-6">
+      <!-- BOTÓN VOLVER -->
+      <a href="index.html" 
+         class="flex items-center gap-2 btn-gradient px-4 py-2 rounded-full text-white font-semibold shadow-lg hover:scale-105 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-5 h-5 animate-pulse">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span>Volver</span>
+      </a>
+      <h1 class="text-lg text-pink-400 font-bold glow tracking-wide">Calendario Didáctico</h1>
+    </nav>
+  </header>
+
+  <!-- 🔹 HERO -->
+  <section class="text-center pt-28">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-pink-400 mb-4 glow">Organiza tu Estudio 📅</h2>
+    <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+      Gana puntos y mejora tu racha de estudio completando tareas y manteniendo tu calendario activo.
+    </p>
+
+    <!-- PANEL DE PUNTOS Y RACHA -->
+    <div class="flex flex-wrap justify-center gap-6 mb-6">
+      <div class="bg-black/40 px-6 py-4 rounded-2xl shadow-lg border border-pink-500/30">
+        <h3 class="text-xl font-bold text-pink-400">💎 Puntos</h3>
+        <p id="pointsDisplay" class="text-2xl font-extrabold text-white mt-1">0</p>
+      </div>
+      <div class="bg-black/40 px-6 py-4 rounded-2xl shadow-lg border border-violet-500/30">
+        <h3 class="text-xl font-bold text-violet-400">📘 Completadas</h3>
+        <p id="completedCount" class="text-2xl font-extrabold text-white mt-1">0</p>
+      </div>
+      <div class="bg-black/40 px-6 py-4 rounded-2xl shadow-lg border border-pink-500/30">
+        <h3 class="text-xl font-bold text-pink-400">🔥 Racha</h3>
+        <p id="streakCount" class="text-2xl font-extrabold text-white mt-1">0</p>
+      </div>
+    </div>
+
+    <button id="addTaskBtn" class="btn-gradient px-6 py-3 rounded-full text-lg font-semibold shadow-lg">
+      ➕ Agregar Tarea
+    </button>
+  </section>
+
+  <!-- 🔹 CALENDARIO -->
+  <div id="calendar"></div>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="py-8 bg-black/70 text-center text-gray-400">
+    <p>© 2025 EDU-PLAY | Tu calendario inteligente ✨</p>
+  </footer>
+
+  <!-- 🔹 SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.getElementById('calendar');
+      const addBtn = document.getElementById('addTaskBtn');
+      const completedEl = document.getElementById('completedCount');
+      const pointsEl = document.getElementById('pointsDisplay');
+      const streakEl = document.getElementById('streakCount');
+
+      let events = JSON.parse(localStorage.getItem('eduplay_events')) || [];
+      let points = parseInt(localStorage.getItem('eduplay_points')) || 0;
+      let streak = parseInt(localStorage.getItem('eduplay_streak')) || 0;
+      let lastActiveDate = localStorage.getItem('eduplay_lastActiveDate') || null;
+
+      // Crear calendario
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        editable: true,
+        selectable: true,
+        events,
+        eventClick: function(info) {
+          Swal.fire({
+            title: '¿Qué deseas hacer?',
+            text: info.event.title,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Marcar completada 🎉',
+            cancelButtonText: 'Eliminar ❌',
+            confirmButtonColor: '#7a3cff',
+            cancelButtonColor: '#ff66c4'
+          }).then(result => {
+            if (result.isConfirmed) {
+              info.event.setProp('color', '#7a3cff');
+              info.event.setExtendedProp('completed', true);
+              points += 10;
+              checkStreak();
+              saveAll();
+              updateDisplay();
+              Swal.fire('¡Excelente!', 'Tarea completada 💪 +10 pts', 'success');
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              info.event.remove();
+              points = Math.max(0, points - 2);
+              saveAll();
+              updateDisplay();
+              Swal.fire('Eliminada', '-2 pts', 'info');
+            }
+          });
+        },
+      });
+
+      calendar.render();
+
+      // Agregar tarea
+      addBtn.addEventListener('click', () => {
+        Swal.fire({
+          title: 'Nueva tarea 📝',
+          html: `
+            <input id="swal-title" class="swal2-input" placeholder="Título de la tarea">
+            <input id="swal-date" type="date" class="swal2-input">
+            <input id="swal-time" type="time" class="swal2-input">
+            <input id="swal-color" type="color" value="#ff66c4" class="swal2-input">
+          `,
+          showCancelButton: true,
+          confirmButtonText: 'Guardar',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#7a3cff',
+          cancelButtonColor: '#ff66c4',
+          preConfirm: () => {
+            const title = document.getElementById('swal-title').value;
+            const date = document.getElementById('swal-date').value;
+            const time = document.getElementById('swal-time').value;
+            const color = document.getElementById('swal-color').value;
+            if (!title || !date) {
+              Swal.showValidationMessage('Por favor completa al menos título y fecha');
+              return false;
+            }
+            return { title, date, time, color };
+          }
+        }).then(result => {
+          if (result.value) {
+            const { title, date, time, color } = result.value;
+            const startDate = time ? `${date}T${time}` : date;
+            calendar.addEvent({ title, start: startDate, color, extendedProps: { completed: false } });
+            points += 3;
+            saveAll();
+            updateDisplay();
+            Swal.fire('Guardado ✅', 'Tarea añadida (+3 pts)', 'success');
+          }
+        });
+      });
+
+      // Función guardar todo
+      function saveAll() {
+        const eventsData = calendar.getEvents().map(ev => ({
+          title: ev.title,
+          start: ev.startStr,
+          color: ev.backgroundColor,
+          completed: ev.extendedProps.completed || false
+        }));
+        localStorage.setItem('eduplay_events', JSON.stringify(eventsData));
+        localStorage.setItem('eduplay_points', points);
+        localStorage.setItem('eduplay_streak', streak);
+        localStorage.setItem('eduplay_lastActiveDate', lastActiveDate);
+      }
+
+      // Actualizar contadores
+      function updateDisplay() {
+        const completed = calendar.getEvents().filter(ev => ev.extendedProps.completed).length;
+        completedEl.textContent = completed;
+        pointsEl.textContent = points;
+        streakEl.textContent = streak;
+      }
+
+      // Control de racha (streak)
+      function checkStreak() {
+        const today = new Date().toISOString().split('T')[0];
+        if (lastActiveDate !== today) {
+          const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+          if (lastActiveDate === yesterday) {
+            streak++;
+          } else {
+            streak = 1;
+          }
+          lastActiveDate = today;
+        }
+      }
+
+      updateDisplay();
+    });
+  </script>
+</body>
+</html>

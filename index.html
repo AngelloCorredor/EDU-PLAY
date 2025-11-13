@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDU-PLAY | Aprende Jugando</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="assets/img/icon.png">
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #7a3cff, #0f0f10 60%);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+    .glow {
+      text-shadow: 0 0 10px #ff66c4, 0 0 20px #7a3cff;
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #7a3cff, #ff66c4);
+      transition: all 0.3s ease;
+    }
+    .btn-gradient:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff66c4;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- 🔹 NAVBAR -->
+  <header class="fixed w-full z-50 backdrop-blur bg-black/40">
+    <nav class="container mx-auto flex justify-between items-center py-4 px-6">
+      <h1 class="text-2xl font-bold text-pink-400 glow">EDU-PLAY</h1>
+      <ul class="flex gap-6 text-gray-200 font-medium">
+        <li><a href="#inicio" class="hover:text-pink-400">Inicio</a></li>
+        <li><a href="#juegos" class="hover:text-pink-400">Juegos</a></li>
+        <li><a href="#calendario" class="hover:text-pink-400">Calendario</a></li>
+        <li><a href="#habitos" class="hover:text-pink-400">Hábitos</a></li>
+      </ul>
+          <!-- Perfil del usuario -->
+    <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='perfil.html'">
+        <span id="headerName" class="text-gray-200 font-medium hidden sm:block"></span>
+        <img id="headerAvatar" src="https://i.postimg.cc/8cJ9dTnQ/avatar1.png"
+             alt="avatar"
+             class="w-10 h-10 rounded-full border-2 border-pink-400 shadow-lg" />
+    </div>
+    </nav>
+  </header>
+
+  <!-- 🔹 HERO SECTION -->
+  <section id="inicio" class="h-screen flex flex-col justify-center items-center text-center px-6">
+    <h2 class="text-5xl md:text-6xl font-extrabold mb-4 glow">
+      Transforma tu forma de aprender 🎓
+    </h2>
+    <p class="text-gray-300 text-lg md:text-xl max-w-2xl mb-8">
+      Con EDU-PLAY, organiza tus actividades académicas mientras te diviertes. 
+      Aprende jugando, gana recompensas y mantén tu motivación al máximo.
+    </p>
+    <a href="#juegos" 
+       class="btn-gradient text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg">
+      Empezar Ahora 🚀
+    </a>
+  </section>
+
+  <!-- 🔹 SECCIÓN: JUEGOS -->
+  <section id="juegos" class="py-20 bg-black/40 text-center">
+    <h3 class="text-4xl font-bold text-pink-400 mb-8">Aprende Jugando</h3>
+    <p class="text-gray-300 max-w-3xl mx-auto mb-12">
+      Participa en trivias, acertijos y juegos interactivos que refuerzan tus conocimientos en 
+      matemáticas, español, historia, inglés y ciencias.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-8">
+      <!-- Matemáticas -->
+      <div class="bg-[#1a1a1a] p-6 rounded-2xl w-72 shadow-lg hover:scale-105 transition">
+        <h4 class="text-2xl font-bold text-violet-400 mb-2">Matemáticas</h4>
+        <p class="text-gray-400 mb-4">Pon a prueba tu lógica con problemas divertidos.</p>
+        <a href="quiz-matematicas.html" class="btn-gradient px-4 py-2 rounded-full inline-block">Jugar ➤</a>
+      </div>
+
+      <!-- Español -->
+      <div class="bg-[#1a1a1a] p-6 rounded-2xl w-72 shadow-lg hover:scale-105 transition">
+        <h4 class="text-2xl font-bold text-violet-400 mb-2">Español</h4>
+        <p class="text-gray-400 mb-4">Refuerza tu ortografía y vocabulario con minijuegos.</p>
+        <a href="quiz-espanol.html" class="btn-gradient px-4 py-2 rounded-full inline-block">Jugar ➤</a>
+      </div>
+
+      <!-- Historia -->
+      <div class="bg-[#1a1a1a] p-6 rounded-2xl w-72 shadow-lg hover:scale-105 transition">
+        <h4 class="text-2xl font-bold text-violet-400 mb-2">Historia</h4>
+        <p class="text-gray-400 mb-4">Descubre datos curiosos de la historia universal.</p>
+        <a href="quiz-historia.html" class="btn-gradient px-4 py-2 rounded-full inline-block">Jugar ➤</a>
+      </div>
+
+      <!-- Inglés -->
+      <div class="bg-[#1a1a1a] p-6 rounded-2xl w-72 shadow-lg hover:scale-105 transition">
+        <h4 class="text-2xl font-bold text-violet-400 mb-2">Inglés</h4>
+        <p class="text-gray-400 mb-4">Amplía tu vocabulario y comprensión del idioma.</p>
+        <a href="quiz-ingles.html" class="btn-gradient px-4 py-2 rounded-full inline-block">Jugar ➤</a>
+      </div>
+
+      <!-- Ciencias -->
+      <div class="bg-[#1a1a1a] p-6 rounded-2xl w-72 shadow-lg hover:scale-105 transition">
+        <h4 class="text-2xl font-bold text-violet-400 mb-2">Ciencias</h4>
+        <p class="text-gray-400 mb-4">Explora el mundo de la naturaleza y la ciencia.</p>
+        <a href="quiz-ciencias.html" class="btn-gradient px-4 py-2 rounded-full inline-block">Jugar ➤</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔹 SECCIÓN: CALENDARIO -->
+  <section id="calendario" class="py-20 text-center">
+    <h3 class="text-4xl font-bold text-pink-400 mb-8">Organiza tu estudio 📅</h3>
+    <p class="text-gray-300 max-w-3xl mx-auto mb-8">
+      Usa el calendario inteligente para planificar tus tareas, recibir recordatorios y seguir tu progreso diario.
+    </p>
+    <a href="calendario.html" class="btn-gradient px-6 py-3 rounded-full text-lg">Abrir Calendario</a>
+  </section>
+
+  <!-- 🔹 SECCIÓN: HÁBITOS -->
+  <section id="habitos" class="py-20 bg-black/30 text-center">
+    <h3 class="text-4xl font-bold text-pink-400 mb-8">Desarrolla hábitos duraderos 💪</h3>
+    <p class="text-gray-300 max-w-3xl mx-auto mb-8">
+      Cumple pequeños retos diarios, gana puntos y mejora tu disciplina con el panel de hábitos interactivo.
+    </p>
+    <a href="habitos.html" class="btn-gradient px-6 py-3 rounded-full text-lg">Ver Panel</a>
+  </section>
+    <!-- 🔹 SECCIÓN: PROGRESO -->
+    <section id="progreso" class="py-20 text-center bg-black/30">
+        <h3 class="text-4xl font-bold text-pink-400 mb-8">Mide tu progreso 📈</h3>
+        <p class="text-gray-300 max-w-3xl mx-auto mb-8">
+        Consulta tus puntos, racha de estudio, medallas y nivel actual en tu panel de progreso.  
+        ¡Sigue aprendiendo y desbloquea más logros cada día!
+        </p>
+        <a href="progreso.html" class="btn-gradient px-6 py-3 rounded-full text-lg">Ver mi progreso</a>
+    </section>
+  
+  <!-- 🔹 FOOTER -->
+  <footer class="py-8 bg-black/70 text-center text-gray-400">
+    <p>© 2025 EDU-PLAY | Aprender nunca fue tan divertido 💡</p>
+    <p class="mt-2">
+      <a href="https://edu-play-i6yci10.gamma.site/" class="text-pink-400 hover:underline">Sobre nosotros</a> · 
+    </p>
+  </footer>
+  
+
+  <!-- 🔹 SCRIPT: frases motivacionales -->
+  <script>
+    const frases = [
+      "Hoy es un buen día para aprender algo nuevo 🌟",
+      "Cada pequeño avance cuenta 💪",
+      "El conocimiento es tu mejor poder ⚡",
+      "Sigue adelante, estás más cerca de tus metas 🎯"
+    ];
+    document.querySelector('#inicio p').textContent =
+      frases[Math.floor(Math.random() * frases.length)];
+      
+  </script>
+  <script>
+    const userData = JSON.parse(localStorage.getItem("eduplay_user")) || {
+      name: "Invitado",
+      avatar: "https://i.postimg.cc/8cJ9dTnQ/avatar1.png"
+    };
+  
+    const headerName = document.getElementById("headerName");
+    const headerAvatar = document.getElementById("headerAvatar");
+  
+    if (headerName && headerAvatar) {
+      headerName.textContent = userData.name || "Invitado";
+      headerAvatar.src = userData.avatar || "https://i.postimg.cc/8cJ9dTnQ/avatar1.png";
+    }
+  </script>
+</body>
+</html>

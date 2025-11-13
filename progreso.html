@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tu Progreso | EDU-PLAY</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #7a3cff, #0f0f10 70%);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+    .glow {
+      text-shadow: 0 0 10px #ff66c4, 0 0 20px #7a3cff;
+    }
+    .btn-gradient {
+      background: linear-gradient(90deg, #7a3cff, #ff66c4);
+      transition: all 0.3s ease;
+    }
+    .btn-gradient:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff66c4;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="fixed w-full z-50 backdrop-blur bg-black/40">
+    <nav class="container mx-auto flex justify-between items-center py-4 px-6">
+      <a href="index.html" class="flex items-center gap-2 btn-gradient px-4 py-2 rounded-full text-white font-semibold shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        Volver
+      </a>
+      <h1 class="text-lg text-pink-400 font-bold glow tracking-wide">Panel de Progreso 🌟</h1>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO -->
+  <section class="min-h-screen flex flex-col justify-center items-center pt-28 px-6 text-center">
+    <div class="bg-black/50 rounded-3xl p-8 shadow-2xl w-full max-w-2xl">
+      <h2 class="text-4xl font-bold text-pink-400 mb-8 glow">¡Sigue creciendo con EDU-PLAY!</h2>
+
+      <!-- PUNTOS -->
+      <div class="mb-6">
+        <h3 class="text-2xl text-violet-400 font-bold">💎 Puntos totales</h3>
+        <p id="points" class="text-5xl font-extrabold text-pink-400 mt-2">0</p>
+      </div>
+
+      <!-- RACHA -->
+      <div class="mb-6">
+        <h3 class="text-2xl text-violet-400 font-bold">🔥 Racha de estudio</h3>
+        <p id="streak" class="text-3xl font-bold mt-2">0 días</p>
+      </div>
+
+      <!-- BARRA DE PROGRESO -->
+      <div class="mt-8 mb-6 text-left">
+        <h3 class="text-2xl text-violet-400 font-bold text-center mb-3">📈 Progreso hacia el siguiente nivel</h3>
+        <div class="w-full bg-gray-700 rounded-full h-6">
+          <div id="progressBar" class="bg-gradient-to-r from-pink-500 to-violet-500 h-6 rounded-full transition-all"></div>
+        </div>
+        <p id="levelText" class="text-gray-300 mt-2 text-center">Nivel 1</p>
+      </div>
+
+      <!-- MEDALLAS -->
+      <div class="mt-10">
+        <h3 class="text-2xl text-violet-400 font-bold mb-4">🏅 Medallas obtenidas</h3>
+        <div id="medals" class="flex flex-wrap justify-center gap-6 text-4xl"></div>
+      </div>
+
+      <!-- FRASE MOTIVACIONAL -->
+      <p id="phrase" class="mt-10 text-gray-300 text-lg italic"></p>
+    </div>
+  </section>
+
+  
+  <!-- SCRIPT -->
+  <script>
+    const pointsEl = document.getElementById("points");
+    const streakEl = document.getElementById("streak");
+    const progressBar = document.getElementById("progressBar");
+    const levelText = document.getElementById("levelText");
+    const medalsEl = document.getElementById("medals");
+    const phraseEl = document.getElementById("phrase");
+
+    const frases = [
+      "Hoy es un gran día para aprender 🌞",
+      "Cada punto cuenta para tu meta 💪",
+      "El esfuerzo de hoy es el éxito de mañana 🌱",
+      "Sigue sumando conocimiento 🔥"
+    ];
+
+    const points = parseInt(localStorage.getItem("eduplay_points")) || 0;
+    const lastStudy = localStorage.getItem("eduplay_lastStudy");
+    const today = new Date().toDateString();
+
+    let streak = parseInt(localStorage.getItem("eduplay_streak")) || 0;
+    if (lastStudy !== today) {
+      localStorage.setItem("eduplay_lastStudy", today);
+      streak++;
+      localStorage.setItem("eduplay_streak", streak);
+    }
+
+    // Calcular nivel (cada 100 puntos sube uno)
+    const level = Math.floor(points / 100) + 1;
+    const progress = (points % 100);
+    progressBar.style.width = progress + "%";
+    levelText.textContent = "Nivel " + level;
+
+    // Medallas
+    medalsEl.innerHTML = "";
+    if (points >= 100) medalsEl.innerHTML += "🥉";
+    if (points >= 300) medalsEl.innerHTML += "🥈";
+    if (points >= 500) medalsEl.innerHTML += "🥇";
+    if (points >= 800) medalsEl.innerHTML += "🏆";
+
+    // Mostrar datos
+    pointsEl.textContent = points;
+    streakEl.textContent = streak + " días";
+    phraseEl.textContent = frases[Math.floor(Math.random() * frases.length)];
+  </script>
+</body>
+</html>
